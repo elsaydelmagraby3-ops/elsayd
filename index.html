@@ -247,7 +247,7 @@
         /* Code Editor */
         .code-section { margin: 80px 0; }
         .mac-window {
-            background: #1e1e1e; /* specific dark for code to look authentic */
+            background: #1e1e1e;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
@@ -275,12 +275,11 @@
             color: #f8f8f2;
             overflow-x: auto;
         }
-        /* Syntax highlighting */
-        .kw { color: #ff79c6; } /* keyword */
-        .var { color: #50fa7b; } /* variable */
-        .str { color: #f1fa8c; } /* string */
-        .num { color: #bd93f9; } /* number */
-        .punc { color: #f8f8f2; } /* punctuation */
+        .kw { color: #ff79c6; }
+        .var { color: #50fa7b; }
+        .str { color: #f1fa8c; }
+        .num { color: #bd93f9; }
+        .punc { color: #f8f8f2; }
         .comment { color: #6272a4; font-style: italic; }
 
         /* Interactive Cards */
@@ -486,7 +485,6 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -546,7 +544,33 @@
             box-shadow: 0 6px 18px var(--glow);
         }
 
-        /* Secret Hash Message - نفس تأثير كروت الرسائل */
+        .secret-password-input {
+            width: 100%;
+            margin-top: 18px;
+            padding: 13px 16px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            outline: none;
+            background: var(--surface-sec);
+            color: var(--text);
+            font: 500 1.1rem 'Fira Code', monospace;
+            text-align: center;
+            letter-spacing: 3px;
+        }
+
+        .secret-password-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--glow);
+        }
+
+        #password-error {
+            min-height: 25px;
+            margin-top: 10px;
+            color: #e87979;
+            font-size: 0.95rem;
+        }
+
+        /* Secret Hash Message (#romana) */
         .secret-hash-card {
             display: none;
             grid-column: 1 / -1;
@@ -607,12 +631,93 @@
             }
         }
 
+        /* === New Secret Hash Message CSS (#❤️) === */
+        .new-secret-hash-card {
+            display: none;
+            grid-column: 1 / -1; /* تأخذ مساحة كاملة لتتوسط الصف */
+            justify-self: center; /* تتوسط القسم */
+            width: 100%;
+            max-width: 420px; /* نفس عرض البطاقات السرية الأخرى */
+            height: 250px;
+            cursor: pointer;
+            perspective: 1000px;
+            border-radius: 24px;
+        }
+
+        /* تأثير ظهور ناعم (Fade + Scale) للبطاقة الجديدة */
+        .new-secret-hash-card.show {
+            display: block;
+            animation: newSecretReveal 0.8s ease both;
+        }
+
+        @keyframes newSecretReveal {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .new-secret-hash-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .new-secret-hash-card .flip-card-inner {
+            position: relative;
+            width: 100%; height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .new-secret-hash-card .flip-card-front, .new-secret-hash-card .flip-card-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            border-radius: 24px;
+        }
+
+        .new-secret-hash-card .flip-card-front {
+            border: 1px dashed var(--accent);
+        }
+
+        .new-secret-hash-card .flip-card-front:hover {
+            background: rgba(146, 118, 185, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .new-secret-hash-card .flip-card-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--surface-main), var(--surface-sec));
+            border-color: var(--lavender);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        /* تنسيق النص: "I LOVE YOU" في المنتصف، بخط أنيق وحجم واضح، مع لمسة لونية بنفسجية */
+        .new-secret-hash-card .new-secret-title {
+            color: var(--lavender);
+            font-family: 'Cairo', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px var(--glow);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.8rem; }
             .hero p { font-size: 1.1rem; }
             .code-content { font-size: 0.9rem; padding: 15px; }
             .stat-value { font-size: 2.2rem; }
+            .new-secret-hash-card .new-secret-title { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -658,7 +763,6 @@
                 <div class="stat-value" data-target="infinity">0</div>
                 <div class="stat-label">حجم الامتنان</div>
             </div>
-          
         </section>
 
         <!-- Code Editor -->
@@ -683,58 +787,69 @@
         </section>
 
         <!-- Interactive Cards -->
-<section class="fade-up">
-    <h2 class="section-title">رسائل مخفية</h2>
+        <section class="fade-up">
+            <h2 class="section-title">رسائل مخفية</h2>
 
-    <div class="cards-grid">
-
-        <!-- الرسالة الأولى -->
-        <div class="flip-card glass" data-id="1">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">💌</div>
-                    <p>افتحي الرسالة الأولى</p>
+            <div class="cards-grid">
+                <!-- الرسالة الأولى -->
+                <div class="flip-card glass" data-id="1">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass">
+                            <div class="card-icon">💌</div>
+                            <p>افتحي الرسالة الأولى</p>
+                        </div>
+                        <div class="flip-card-back glass">
+                            <p>"في مواقف صغيرة بتفضل عايشة جوانا مهما عدى وقت، وإنتِ ليكي مواقف عمري ما هنسى أثرها."</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="flip-card-back glass">
-                    <p>"في مواقف صغيرة بتفضل عايشة جوانا مهما عدى وقت، وإنتِ ليكي مواقف عمري ما هنسى أثرها."</p>
+
+                <!-- الرسالة الثانية -->
+                <div class="flip-card glass" data-id="2">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass">
+                            <div class="card-icon">🦋</div>
+                            <p>افتحي الرسالة الثانية</p>
+                        </div>
+                        <div class="flip-card-back glass">
+                            <p>"يمكن متعرفيش إن كلامك كان بيفرق قد إيه، بس الحقيقة إنك ساعدتيني أعدّي أيام مكنتش سهلة."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الرسالة الثالثة -->
+                <div class="flip-card glass" data-id="3">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass">
+                            <div class="card-icon">🌷</div>
+                            <p>افتحي الرسالة الثالثة</p>
+                        </div>
+                        <div class="flip-card-back glass">
+                            <p>"شكرًا يا مريم على طيبتك ووجودك، ويا رُمّانة خليكي دايمًا بنفس روحك الحلوة ومتنسيش إنك مميزة ❤️"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- رسالة سرية تظهر باستخدام الهاش القديم (#romana) -->
+                <div class="secret-hash-card glass" id="secret-hash-card" aria-live="polite">
+                    <div class="card-icon">🔐</div>
+                    <p>دي الرسالة التانية</p>
+                </div>
+
+                <!-- === New Secret Hash Message Card (#❤️) === -->
+                <div class="new-secret-hash-card glass" id="new-secret-card" aria-live="polite">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass">
+                            <div class="card-icon">🎁</div>
+                            <p>افتحي المفاجأة السرية</p>
+                        </div>
+                        <div class="flip-card-back glass">
+                            <h2 class="new-secret-title">I LOVE YOU</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- الرسالة الثانية -->
-        <div class="flip-card glass" data-id="2">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🦋</div>
-                    <p>افتحي الرسالة الثانية</p>
-                </div>
-                <div class="flip-card-back glass">
-                    <p>"يمكن متعرفيش إن كلامك كان بيفرق قد إيه، بس الحقيقة إنك ساعدتيني أعدّي أيام مكنتش سهلة."</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- الرسالة الثالثة -->
-        <div class="flip-card glass" data-id="3">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <div class="card-icon">🌷</div>
-                    <p>افتحي الرسالة الثالثة</p>
-                </div>
-                <div class="flip-card-back glass">
-                    <p>"شكرًا يا مريم على طيبتك ووجودك، ويا رُمّانة خليكي دايمًا بنفس روحك الحلوة ومتنسيش إنك مميزة ❤️"</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- رسالة سرية تظهر باستخدام الهاش -->
-        <div class="secret-hash-card glass" id="secret-hash-card" aria-live="polite">
-            <div class="card-icon">🔐</div>
-            <p>دي الرسالة التانية</p>
-        </div>
-
-    </div>
-</section>
+        </section>
 
         <!-- Final Envelope -->
         <section class="envelope-section fade-up">
@@ -757,9 +872,7 @@
             <button class="modal-close" id="close-modal">&times;</button>
             <div style="font-size: 4rem; margin-bottom: 10px;">🏆</div>
             <h2 style="color: var(--lavender); margin-bottom: 15px;">شكراً </h2>
-            <p class="final-msg" id="msg-to-copy">مش عارف الكلمات توصف قد إيه أنا ممتن ليكي، لكن وجودك فرق معايا بجد. يمكن مواقفك كانت بسيطة بالنسبالك، لكنها ساعدتني أتخطى أيام صعبة وأشوف الحلو في الحياة تاني.
-
-شكرًا يا مريم على وجودك، وعلى كل مرة خليتي يومي أحسن. ❤️</p>
+            <p class="final-msg" id="msg-to-copy">مش عارف الكلمات توصف قد إيه أنا ممتن ليكي، لكن وجودك فرق معايا بجد. يمكن مواقفك كانت بسيطة بالنسبالك، لكنها ساعدتني أتخطى أيام صعبة وأشوف الحلو في الحياة تاني. شكرًا يا مريم على وجودك، وعلى كل مرة خليتي يومي أحسن. ❤️</p>
             <button class="btn-primary" id="btn-copy">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
                 نسخ الرسالة
@@ -771,23 +884,34 @@
         <p>const gratitude = Infinity; // Designed & Developed with Elsayd Elmaghraby ♥</p>
     </footer>
 
+    <!-- Reset Button Secret Password Modal -->
+    <div class="secret-modal" id="password-modal" role="dialog" aria-modal="true" aria-labelledby="password-title">
+        <div class="secret-box glass">
+            <div style="font-size: 3rem; margin-bottom: 10px;">🔐</div>
+            <h2 id="password-title">لقيت السر؟</h2>
+            <p>اكتب كلمة السر عشان تفتح الرسالة المخفية.</p>
+            <input class="secret-password-input" id="secret-password" type="password" inputmode="numeric" autocomplete="off" placeholder="كلمة السر" aria-label="كلمة السر">
+            <p id="password-error" role="alert"></p>
+            <button class="secret-close" id="password-submit" type="button">فتح الرسالة</button>
+            <button class="secret-close" id="password-cancel" type="button" style="background:var(--surface-sec); color:var(--text); margin-right:8px;">إلغاء</button>
+        </div>
+    </div>
 
     <!-- Secret Easter Egg Modal -->
     <div class="secret-modal" id="secret-modal" role="dialog" aria-modal="true" aria-labelledby="secret-title">
         <div class="secret-box glass">
             <div style="font-size: 3rem; margin-bottom: 10px;">🤫</div>
             <h2 id="secret-title">دي اول رسالة مخفية!</h2>
-            <p> غالبا مخدتيش بالك منها وانا الي قلتلك </p>
-            <p>
+            <p id="secret-message-intro"> غالبا مخدتيش بالك منها وانا الي قلتلك </p>
+            <p id="secret-message-body">
                 مش كل الأسرار بتكون مخفية عشان محدش يشوفها，
                 بعضها بيكون مستني الشخص الصح يكتشفها. ❤️
-                
             </p>
             <button class="secret-close" id="secret-close" type="button">إغلاق</button>
         </div>
     </div>
 
-    <!-- Background Music: ضع ملف MP3 داخل مجلد music -->
+    <!-- Background Music -->
     <audio id="background-music" loop preload="none">
         <source src="emotional-piano.mp3" type="audio/mpeg">
     </audio>
@@ -795,14 +919,13 @@
     <script>
         // --- Web Audio API (Sound System) ---
         let audioCtx;
-        let isMuted = true; // Start muted for browser auto-play policies
+        let isMuted = true;
         const soundBtn = document.getElementById('btn-sound');
         const soundPath = document.getElementById('sound-icon-path');
         
         const pathVolumeOn = "M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z";
         const pathVolumeOff = "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z";
 
-        // Update icon based on state
         soundPath.setAttribute('d', pathVolumeOff);
 
         function initAudio() {
@@ -825,43 +948,38 @@
             osc.stop(audioCtx.currentTime + duration);
         }
 
-       // --- Background Music (MP3) ---
-const backgroundMusic = document.getElementById('background-music');
-backgroundMusic.volume = 1.0; // مستوى صوت الموسيقى
+        // --- Background Music (MP3) ---
+        const backgroundMusic = document.getElementById('background-music');
+        backgroundMusic.volume = 1.0;
 
-// دالة لتشغيل الموسيقى وتحديث أيقونة الصوت
-const playAutoMusic = async () => {
-    if (!isMuted) return; // إذا كانت تعمل بالفعل لا تفعل شيئاً
-    try {
-        await backgroundMusic.play();
-        isMuted = false;
-        soundPath.setAttribute('d', pathVolumeOn);
-        initAudio();
-    } catch (error) {
-        console.log('المتصفح يمنع التشغيل التلقائي، سيتم التشغيل عند أول تفاعل.');
-    }
-};
+        const playAutoMusic = async () => {
+            if (!isMuted) return;
+            try {
+                await backgroundMusic.play();
+                isMuted = false;
+                soundPath.setAttribute('d', pathVolumeOn);
+                initAudio();
+            } catch (error) {
+                console.log('المتصفح يمنع التشغيل التلقائي، سيتم التشغيل عند أول تفاعل.');
+            }
+        };
 
-// 1. محاولة التشغيل التلقائي فور فتح الصفحة
-window.addEventListener('DOMContentLoaded', playAutoMusic);
+        window.addEventListener('DOMContentLoaded', playAutoMusic);
+        document.body.addEventListener('click', playAutoMusic, { once: true });
+        document.body.addEventListener('touchstart', playAutoMusic, { once: true });
 
-// 2. التشغيل الإجباري عند أول ضغطة أو حركة للمستخدم على الشاشة (للتغلب على حماية المتصفح)
-document.body.addEventListener('click', playAutoMusic, { once: true });
-document.body.addEventListener('touchstart', playAutoMusic, { once: true });
+        soundBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (isMuted) {
+                await playAutoMusic();
+                playTone(600, 'sine', 0.1, 0.04);
+            } else {
+                backgroundMusic.pause();
+                isMuted = true;
+                soundPath.setAttribute('d', pathVolumeOff);
+            }
+        });
 
-soundBtn.addEventListener('click', async (e) => {
-    e.stopPropagation(); // لمنع تداخل الضغطة مع باقي الصفحة
-    if (isMuted) {
-        await playAutoMusic();
-        playTone(600, 'sine', 0.1, 0.04);
-    } else {
-        backgroundMusic.pause();
-        isMuted = true;
-        soundPath.setAttribute('d', pathVolumeOff);
-    }
-});
-
-        // Add sound to interactives
         document.querySelectorAll('button, .flip-card, .envelope-wrapper').forEach(el => {
             el.addEventListener('mouseenter', () => playTone(400, 'sine', 0.05, 0.02));
             el.addEventListener('click', () => playTone(800, 'triangle', 0.1, 0.05));
@@ -937,12 +1055,12 @@ soundBtn.addEventListener('click', async (e) => {
         // --- Typewriter Effect ---
         const titleText = "شكراً من القلب";
         const descText = "بعض الأشخاص بيسيبوا أثر ما بيتنسيش. شكراً على كل حاجة قدمتها.";
-        let i = 0, j = 0;
+        let typewriter_i = 0, typewriter_j = 0;
         
         function typeWriter() {
-            if (i < titleText.length) {
-                document.getElementById('hero-title').innerHTML = titleText.substring(0, i+1) + '<span class="typewriter-cursor"></span>';
-                i++;
+            if (typewriter_i < titleText.length) {
+                document.getElementById('hero-title').innerHTML = titleText.substring(0, typewriter_i+1) + '<span class="typewriter-cursor"></span>';
+                typewriter_i++;
                 setTimeout(typeWriter, 100);
             } else {
                 document.getElementById('hero-title').innerHTML = titleText;
@@ -950,9 +1068,9 @@ soundBtn.addEventListener('click', async (e) => {
             }
         }
         function typeDesc() {
-            if (j < descText.length) {
-                document.getElementById('hero-desc').innerHTML = descText.substring(0, j+1) + '<span class="typewriter-cursor"></span>';
-                j++;
+            if (typewriter_j < descText.length) {
+                document.getElementById('hero-desc').innerHTML = descText.substring(0, typewriter_j+1) + '<span class="typewriter-cursor"></span>';
+                typewriter_j++;
                 setTimeout(typeDesc, 50);
             } else {
                 document.getElementById('hero-desc').innerHTML = descText;
@@ -960,7 +1078,7 @@ soundBtn.addEventListener('click', async (e) => {
         }
         setTimeout(typeWriter, 800);
 
-        // --- Intersection Observer for Animations & Counters ---
+        // --- Intersection Observer ---
         const fadeElements = document.querySelectorAll('.fade-up');
         let countersStarted = false;
 
@@ -1093,7 +1211,6 @@ soundBtn.addEventListener('click', async (e) => {
                 playSuccessArpeggio();
                 setTimeout(() => modal.classList.add('active'), 500);
             } else {
-                // Shake effect if locked
                 envelope.style.transform = 'translateX(-10px)';
                 setTimeout(() => envelope.style.transform = 'translateX(10px)', 100);
                 setTimeout(() => envelope.style.transform = 'translateX(-10px)', 200);
@@ -1104,7 +1221,6 @@ soundBtn.addEventListener('click', async (e) => {
 
         closeModal.addEventListener('click', () => modal.classList.remove('active'));
         
-        // Copy Message
         document.getElementById('btn-copy').addEventListener('click', () => {
             const msg = document.getElementById('msg-to-copy').innerText;
             navigator.clipboard.writeText(msg).then(() => {
@@ -1119,13 +1235,114 @@ soundBtn.addEventListener('click', async (e) => {
             });
         });
 
-        // --- Reset Experience ---
-        document.getElementById('btn-reset').addEventListener('click', () => {
+        // -----------------------------------------------------------
+        // الدوال الأربعة للرسائل السرية المفصولة
+        // -----------------------------------------------------------
+
+        function showFooterSecret() {
+            const secretModal = document.getElementById('secret-modal');
+            const secretTitle = document.getElementById('secret-title');
+            const secretIntro = document.getElementById('secret-message-intro');
+            const secretBody = document.getElementById('secret-message-body');
+
+            secretTitle.textContent = "دي اول رسالة مخفية!";
+            secretIntro.textContent = "غالبا مخدتيش بالك منها وانا الي قلتلك";
+            secretBody.textContent = "مش كل الأسرار بتكون مخفية عشان محدش يشوفها، بعضها بيكون مستني الشخص الصح يكتشفها. ❤️";
+
+            secretModal.classList.add('active');
+            if (typeof playSuccessArpeggio === "function") playSuccessArpeggio();
+        }
+
+        function showPasswordSecretOne() {
+            const secretModal = document.getElementById('secret-modal');
+            const passwordModal = document.getElementById('password-modal');
+            const secretTitle = document.getElementById('secret-title');
+            const secretIntro = document.getElementById('secret-message-intro');
+            const secretBody = document.getElementById('secret-message-body');
+
+       secretTitle.textContent = 'رسالة سرية';
+secretIntro.textContent = 'في مشاعر مش دايمًا بنعرف نقولها بسهولة...';
+secretBody.textContent = 'يمكن مش بعرف أعبّر عن اللي جوايا بالشكل الكافي، بس الحقيقة إن ليكي مكانة مختلفة عندي. وجودك بقى من الحاجات اللي بتفرّحني، وكلامك واهتمامك ليهم تأثير أكبر مما تتخيلي. يمكن جوايا مشاعر ناحيتك أكبر من مجرد إعجاب، ومش عارف أوصفها بكلمات، لكن كل اللي أعرفه إني بتمنى أشوفك دايمًا مبسوطة، وأكون سبب في ابتسامة من ابتساماتك. ❤️';
+            if(passwordModal) passwordModal.classList.remove('active');
+            secretModal.classList.add('active');
+            if (typeof playSuccessArpeggio === "function") playSuccessArpeggio();
+        }
+
+        function showPasswordSecretTwo() {
+            const secretModal = document.getElementById('secret-modal');
+            const passwordModal = document.getElementById('password-modal');
+            const secretTitle = document.getElementById('secret-title');
+            const secretIntro = document.getElementById('secret-message-intro');
+            const secretBody = document.getElementById('secret-message-body');
+
+     secretTitle.textContent = 'رسالة سرية';
+secretIntro.textContent = 'في كلام يمكن مبيتقالش كتير، بس يستاهل يتقال.';
+secretBody.textContent = 'يمكن مش بعرف أعبّر دايمًا عن قد إيه وجودك فارق، بس بجد إنتِ من الناس اللي وجودها بيخلّي الأيام ألطف. ممتن لكل كلمة حلوة، ولكل موقف بسيط كان ليه أثر كبير عندي. أتمنى تفضلي دايمًا بنفس روحك الجميلة، وتلاقي من الدنيا كل الفرح اللي تستاهليه. ومتنسِيش أبدًا إن وجودك فرق، أكتر مما تتخيلي. ❤️';
+            if(passwordModal) passwordModal.classList.remove('active');
+            secretModal.classList.add('active');
+            if (typeof playSuccessArpeggio === "function") playSuccessArpeggio();
+        }
+
+        // دالة إظهار بطاقة #romana (تم فصل محتواها عن الإضافة الجديدة)
+        function showHashSecretOld() {
+            const secretHashCard = document.getElementById("secret-hash-card");
+            if (!secretHashCard) return;
+
+            secretHashCard.innerHTML = `
+                <div class="flip-card-inner">
+                    <div class="flip-card-front glass">
+                        <div class="card-icon">🔐</div>
+                        <p>افتحي الرسالة السرية</p>
+                    </div>
+                    <div class="flip-card-back glass">
+                        <h2>رسالة مخصوص ليكي</h2>
+                        <p>
+                          يا مريم، بجد مبسوط إني عرفتك، وشكرًا على كل مرة كنتِ فيها سبب إني أبتسم وأعدّي يوم صعب. وجودك فارق معايا، وخليكي دايمًا حلوة بروحك وخفة دمك يا رُمّانة 💜
+                        </p>
+                    </div>
+                </div>
+            `;
+            secretHashCard.classList.add("show");
+        }
+
+        // -----------------------------------------------------------
+        // إعدادات تشغيل الرسائل السرية
+        // -----------------------------------------------------------
+
+        const resetButton = document.getElementById('btn-reset');
+        const passwordModal = document.getElementById('password-modal');
+        const secretPasswordInput = document.getElementById('secret-password');
+        const passwordError = document.getElementById('password-error');
+        const passwordSubmit = document.getElementById('password-submit');
+        const passwordCancel = document.getElementById('password-cancel');
+        const secretModal = document.getElementById('secret-modal');
+        const secretClose = document.getElementById('secret-close');
+        
+        let resetClicks = 0;
+        let resetLastClick = 0;
+        const resetClickWindow = 3000;
+
+        resetButton.addEventListener('click', () => {
+            const now = Date.now();
+            if (now - resetLastClick > resetClickWindow) {
+                resetClicks = 0;
+            }
+            resetLastClick = now;
+            resetClicks++;
+
+            if (resetClicks >= 7) {
+                resetClicks = 0; 
+                secretPasswordInput.value = '';
+                passwordError.textContent = '';
+                passwordModal.classList.add('active');
+                setTimeout(() => secretPasswordInput.focus(), 250);
+            }
+
             flippedCount = 0;
             progressBar.style.width = '0%';
             cards.forEach(c => c.classList.remove('flipped'));
             envelope.classList.remove('unlocked');
-            envelopeMsg.innerText = "اكتشف جميع الرسائل لفتح الظرف...";
+            envelopeMsg.innerText = "اكتملت الرسائل لفتح الظرف...";
             envelopeMsg.style.color = "var(--muted)";
             envelopeMsg.style.fontWeight = "normal";
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1133,101 +1350,164 @@ soundBtn.addEventListener('click', async (e) => {
             setTimeout(() => playTone(300, 'sine', 0.3), 200);
         });
 
+        function closePasswordModal() {
+            passwordModal.classList.remove('active');
+            secretPasswordInput.value = '';
+            passwordError.textContent = '';
+        }
+
+        function checkSecretPassword() {
+            const password = secretPasswordInput.value.trim();
+            if (password === '1982012') {
+                showPasswordSecretOne();
+            } else if (password === '1512011') {
+                showPasswordSecretTwo();
+            } else {
+                passwordError.textContent = 'كلمة السر مش صحيحة، جرّب تاني.';
+                secretPasswordInput.select();
+                playTone(180, 'sawtooth', 0.15);
+            }
+        }
+
+        passwordSubmit.addEventListener('click', checkSecretPassword);
+        secretPasswordInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') checkSecretPassword();
+        });
+        passwordCancel.addEventListener('click', closePasswordModal);
+        passwordModal.addEventListener('click', (event) => {
+            if (event.target === passwordModal) closePasswordModal();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closePasswordModal();
+        });
+
         // --- Secret Easter Egg: 5 Footer Clicks ---
         const secretFooter = document.getElementById('secret-footer');
-        const secretModal = document.getElementById('secret-modal');
-        const secretClose = document.getElementById('secret-close');
-
         let footerClicks = 0;
         let lastFooterClick = 0;
-        const secretClickWindow = 2000; // يجب إكمال الضغطات الخمس خلال ثانيتين
-
-        function openSecretMessage() {
-            secretModal.classList.add('active');
-            playSuccessArpeggio();
-        }
-
-        function closeSecretMessage() {
-            secretModal.classList.remove('active');
-        }
+        const secretClickWindow = 2000;
 
         secretFooter.addEventListener('click', () => {
             const now = Date.now();
-
-            // إعادة العد إذا مر أكثر من ثانيتين بين الضغطات
             if (now - lastFooterClick > secretClickWindow) {
                 footerClicks = 0;
             }
-
             lastFooterClick = now;
             footerClicks++;
 
             if (footerClicks >= 5) {
                 footerClicks = 0;
                 lastFooterClick = 0;
-                openSecretMessage();
+                showFooterSecret();
             }
         });
 
-        secretClose.addEventListener('click', closeSecretMessage);
+        secretClose.addEventListener('click', () => {
+            secretModal.classList.remove('active');
+        });
 
         secretModal.addEventListener('click', (event) => {
             if (event.target === secretModal) {
-                closeSecretMessage();
+                secretModal.classList.remove('active');
             }
         });
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && secretModal.classList.contains('active')) {
-                closeSecretMessage();
+                secretModal.classList.remove('active');
             }
         });
 
-        // --- Secret Hash Message ---
-        // افتحي الرسالة بإضافة #romana إلى نهاية رابط الموقع.
-        const secretHash = "#romana";
-        const secretHashCard = document.getElementById("secret-hash-card");
+        // === Secret Hash Message Logic (Multi-Hash System) ===
+        
+        // المتغيرات الخاصة بالرسائل السرية بالهاش
+        const oldSecretHash = "#romana";
+        const oldSecretCard = document.getElementById("secret-hash-card");
+        
+        const newSecretHash = "#❤️"; // الهاش الجديد كرمز تعبيري
+        const newSecretCard = document.getElementById("new-secret-card");
 
+        // دالة التحقق من الهاش وإظهار الرسالة السرية المقابلة (أو إخفاؤها)
         function checkSecretHash() {
-            const currentHash = window.location.hash.toLowerCase();
+            // الحصول على الهاش الحالي وفك ترميزه بصورة صحيحة (للتعامل مع الإيموجي والرموز)
+            // المتصفح يحول `#❤️` إلى `#%E2%9D%A4%EF%B8%8F` في الرابط
+            const currentRawHash = window.location.hash;
+            let currentDecodedHash = "";
+            try {
+                currentDecodedHash = decodeURIComponent(currentRawHash).toLowerCase();
+            } catch (e) {
+                // في حال وجود خطأ في الترميز، استخدم النص الخام
+                currentDecodedHash = currentRawHash.toLowerCase();
+            }
 
-            if (currentHash === secretHash) {
-                secretHashCard.innerHTML = `
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front glass">
-                            <div class="card-icon">🔐</div>
-                            <p>افتحي الرسالة السرية</p>
-                        </div>
-                        <div class="flip-card-back glass">
-                            
-                            <h2>رسالة مخصوص ليكي</h2>
-                            <p>
-                              يا مريم، بجد مبسوط إني عرفتك، وشكرًا على كل مرة كنتِ فيها سبب إني أبتسم وأعدّي يوم صعب. وجودك فارق معايا، وخليكي دايمًا حلوة بروحك وخفة دمك يا رُمّانة 💜
-                                <br>
-                               
-                            </p>
-                        </div>
-                    </div>
-                `;
-                secretHashCard.classList.add("show");
-            } else {
-                secretHashCard.classList.remove("show");
-                secretHashCard.classList.remove("flipped");
+            // --- 1. التحقق من الهاش القديم (#romana) ---
+            if (currentDecodedHash === oldSecretHash) {
+                // إظهار الرسالة القديمة وتعبئتها
+                if (!oldSecretCard.classList.contains("show")) {
+                    showHashSecretOld(); // تعبئة المحتوى فقط عند الإظهار
+                }
+                
+                // إخفاء الرسالة الجديدة
+                if (newSecretCard) {
+                    newSecretCard.classList.remove("show");
+                    newSecretCard.classList.remove("flipped");
+                }
+            } 
+            // --- 2. التحقق من الهاش الجديد (#❤️) ---
+            // نقارن النص العربي/الإيموجي مباشرة بعد فك الترميز
+            else if (currentDecodedHash === newSecretHash) {
+                // إظهار الرسالة الجديدة
+                if (newSecretCard) {
+                    newSecretCard.classList.add("show");
+                    // تعبئة المحتوى هنا إذا لم يتم تعبئته مسبقًا في الـ HTML
+                    // (في هذا الكود، النص موجود مسبقًا في الـ HTML لتبسيط الأمر)
+                }
+                
+                // إخفاء الرسالة القديمة
+                if (oldSecretCard) {
+                    oldSecretCard.classList.remove("show");
+                    oldSecretCard.classList.remove("flipped");
+                }
+            }
+            // --- 3. لا يوجد هاش أو هاش آخر ---
+            else {
+                // إخفاء جميع الرسائل السرية
+                if (oldSecretCard) {
+                    oldSecretCard.classList.remove("show");
+                    oldSecretCard.classList.remove("flipped");
+                }
+                if (newSecretCard) {
+                    newSecretCard.classList.remove("show");
+                    newSecretCard.classList.remove("flipped");
+                }
             }
         }
 
-        // نفس حركة قلب الكروت العادية، من غير التأثير على عداد الرسائل الثلاث.
-        secretHashCard.addEventListener("click", () => {
-            if (secretHashCard.classList.contains("show")) {
-                secretHashCard.classList.toggle("flipped");
-            }
-        });
+        // إضافة Event Listener للبطاقة القديمة (من الكود الأصلي)
+        if (oldSecretCard) {
+            oldSecretCard.addEventListener("click", () => {
+                if (oldSecretCard.classList.contains("show")) {
+                    oldSecretCard.classList.toggle("flipped");
+                    // لا تتدخل في عداد الرسائل الأساسي
+                }
+            });
+        }
 
-        // يعمل سواء تم فتح الرابط مباشرة أو تغيير الهاش أثناء تصفح الصفحة.
+        // إضافة Event Listener للبطاقة الجديدة (مستقلة وبدون تدخل في العداد)
+        if (newSecretCard) {
+            newSecretCard.addEventListener("click", () => {
+                if (newSecretCard.classList.contains("show")) {
+                    newSecretCard.classList.toggle("flipped");
+                    // لا تدخل في عداد flippedCount أو نظام فتح الظرف
+                }
+            });
+        }
+
+        // استماع لتغير الهاش في الرابط، وتشغيل دالة التحقق عند التحميل
         window.addEventListener("hashchange", checkSecretHash);
-        checkSecretHash();
+        checkSecretHash(); // تحقق أولي عند فتح الصفحة
 
-        // Initial setup for fade-up on page load
+        // إظهار عناصر الهيرو (تكملة الكود الأصلي)
         setTimeout(() => {
             document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
         }, 100);

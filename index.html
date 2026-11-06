@@ -546,36 +546,52 @@
             box-shadow: 0 6px 18px var(--glow);
         }
 
-        /* Secret Hash Message */
+        /* Secret Hash Message - نفس تأثير كروت الرسائل */
         .secret-hash-card {
             display: none;
             grid-column: 1 / -1;
             justify-self: center;
             width: 100%;
             max-width: 420px;
-            min-height: 250px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid var(--lavender);
+            height: 250px;
+            cursor: pointer;
+            perspective: 1000px;
             border-radius: 24px;
-            box-shadow: 0 0 25px var(--glow);
         }
 
         .secret-hash-card.show {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: block;
             animation: secretReveal 0.8s ease both;
         }
 
-        .secret-hash-card p {
+        .secret-hash-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .secret-hash-card .flip-card-front {
+            border: 1px dashed var(--accent);
+        }
+
+        .secret-hash-card .flip-card-front:hover {
+            background: rgba(146, 118, 185, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .secret-hash-card .flip-card-back {
+            background: linear-gradient(135deg, var(--surface-main), var(--surface-sec));
+            border-color: var(--lavender);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .secret-hash-card .flip-card-back p {
             font-size: 1.2rem;
+            font-weight: 500;
             color: var(--text);
             line-height: 1.9;
         }
 
-        .secret-hash-card h2 {
+        .secret-hash-card .flip-card-back h2 {
             color: var(--lavender);
             margin-bottom: 15px;
         }
@@ -1177,20 +1193,36 @@ soundBtn.addEventListener('click', async (e) => {
 
             if (currentHash === secretHash) {
                 secretHashCard.innerHTML = `
-                    <div class="card-icon">💜</div>
-                    <h2>رسالة مخصوص ليكي</h2>
-                    <p>
-                        هنا اكتبي رسالتك السرية لمريم...
-                        <br>
-                        يمكن مش كل الكلام بيتقال، لكن في حاجات تستاهل تفضل متخبية
-                        لحد ما الشخص الصح يكتشفها. ❤️
-                    </p>
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front glass">
+                            <div class="card-icon">🔐</div>
+                            <p>افتحي الرسالة السرية</p>
+                        </div>
+                        <div class="flip-card-back glass">
+                            <div class="card-icon">💜</div>
+                            <h2>رسالة مخصوص ليكي</h2>
+                            <p>
+                                هنا اكتبي رسالتك السرية لمريم...
+                                <br>
+                                يمكن مش كل الكلام بيتقال، لكن في حاجات تستاهل تفضل متخبية
+                                لحد ما الشخص الصح يكتشفها. ❤️
+                            </p>
+                        </div>
+                    </div>
                 `;
                 secretHashCard.classList.add("show");
             } else {
                 secretHashCard.classList.remove("show");
+                secretHashCard.classList.remove("flipped");
             }
         }
+
+        // نفس حركة قلب الكروت العادية، من غير التأثير على عداد الرسائل الثلاث.
+        secretHashCard.addEventListener("click", () => {
+            if (secretHashCard.classList.contains("show")) {
+                secretHashCard.classList.toggle("flipped");
+            }
+        });
 
         // يعمل سواء تم فتح الرابط مباشرة أو تغيير الهاش أثناء تصفح الصفحة.
         window.addEventListener("hashchange", checkSecretHash);

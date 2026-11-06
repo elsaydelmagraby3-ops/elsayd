@@ -1,18 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Little Thank You | شكراً من القلب</title>
-    <!-- Website Favicon -->
-<link rel="icon" type="image/png" href="logo.png">
-    <!-- Google Fonts -->
+    <link rel="icon" type="image/png" href="logo.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Fira+Code:wght@400;500&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS Variables for Light/Dark Themes */
         :root[data-theme="dark"] {
             --bg: #100D1C;
             --surface-main: rgba(25, 21, 42, 0.7);
@@ -58,37 +57,61 @@
             min-height: 100vh;
         }
 
-        /* Typography */
-        h1, h2, h3, h4 { font-family: 'Cairo', sans-serif; }
-        p { line-height: 1.8; }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--lavender); }
+        h1, h2, h3, h4 {
+            font-family: 'Cairo', sans-serif;
+        }
 
-        /* Canvas & Glow */
+        p {
+            line-height: 1.8;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--lavender);
+        }
+
         #bg-canvas, #confetti-canvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: -1;
         }
-        #confetti-canvas { z-index: 100; }
-        
+
+        #confetti-canvas {
+            z-index: 100;
+        }
+
         #mouse-glow {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
-            background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--glow), transparent 40%);
+            background: radial-gradient(
+                circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                var(--glow),
+                transparent 40%
+            );
             z-index: 0;
             transition: opacity 0.3s;
         }
 
-        /* Layout & Utilities */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -112,26 +135,33 @@
             transform: translateY(30px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
+
         .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
         /* Navbar */
+
         nav {
             position: fixed;
-            top: 0; left: 0; width: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
             z-index: 50;
             padding: 15px 0;
-            background: rgba(var(--bg), 0.8);
+            background: var(--bg);
+            background: color-mix(in srgb, var(--bg) 80%, transparent);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
         }
+
         .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             font-family: 'Cairo', sans-serif;
             font-weight: 700;
@@ -140,15 +170,18 @@
             text-shadow: 0 0 10px var(--glow);
             letter-spacing: 1px;
         }
+
         .controls {
             display: flex;
             gap: 15px;
         }
+
         .icon-btn {
             background: var(--surface-sec);
             border: 1px solid var(--border);
             color: var(--text);
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -156,21 +189,30 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+
         .icon-btn:hover {
             background: var(--accent);
             color: #fff;
             transform: scale(1.1);
         }
-        .icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
-        /* Progress Bar */
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Progress */
+
         .progress-container {
             width: 100%;
             height: 4px;
             background: var(--surface-sec);
             position: absolute;
-            bottom: -2px; left: 0;
+            bottom: -2px;
+            left: 0;
         }
+
         .progress-bar {
             height: 100%;
             width: 0%;
@@ -179,7 +221,8 @@
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Hero Section */
+        /* Hero */
+
         .hero {
             min-height: 100vh;
             display: flex;
@@ -189,6 +232,7 @@
             text-align: center;
             padding-top: 80px;
         }
+
         .hero h1 {
             font-size: 4rem;
             margin-bottom: 10px;
@@ -197,6 +241,7 @@
             -webkit-text-fill-color: transparent;
             min-height: 1.2em;
         }
+
         .hero .subtitle {
             font-family: 'Fira Code', monospace;
             color: var(--accent);
@@ -204,12 +249,14 @@
             margin-bottom: 25px;
             letter-spacing: 1px;
         }
+
         .hero p {
             font-size: 1.4rem;
             color: var(--muted);
             max-width: 600px;
             font-weight: 300;
         }
+
         .typewriter-cursor {
             display: inline-block;
             width: 3px;
@@ -217,20 +264,27 @@
             margin-right: 4px;
             animation: blink 0.8s infinite;
         }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Stats Section */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Stats */
+
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin: 60px 0;
         }
+
         .stat-card {
             padding: 30px;
             text-align: center;
             border-radius: 20px;
         }
+
         .stat-value {
             font-family: 'Fira Code', monospace;
             font-size: 3rem;
@@ -239,13 +293,18 @@
             margin-bottom: 10px;
             text-shadow: 0 0 15px var(--glow);
         }
+
         .stat-label {
             font-size: 1.1rem;
             color: var(--muted);
         }
 
         /* Code Editor */
-        .code-section { margin: 80px 0; }
+
+        .code-section {
+            margin: 80px 0;
+        }
+
         .mac-window {
             background: #1e1e1e;
             border-radius: 12px;
@@ -254,19 +313,28 @@
             border: 1px solid rgba(255,255,255,0.1);
             direction: ltr;
         }
+
         [data-theme="light"] .mac-window {
-            background: #282a36; 
+            background: #282a36;
         }
+
         .title-bar {
             background: #333;
             padding: 12px 15px;
             display: flex;
             gap: 8px;
         }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
         .dot.red { background: #ff5f56; }
         .dot.yellow { background: #ffbd2e; }
         .dot.green { background: #27c93f; }
+
         .code-content {
             padding: 25px;
             font-family: 'Fira Code', monospace;
@@ -275,6 +343,7 @@
             color: #f8f8f2;
             overflow-x: auto;
         }
+
         .kw { color: #ff79c6; }
         .var { color: #50fa7b; }
         .str { color: #f1fa8c; }
@@ -282,13 +351,15 @@
         .punc { color: #f8f8f2; }
         .comment { color: #6272a4; font-style: italic; }
 
-        /* Interactive Cards */
+        /* Cards */
+
         .section-title {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 40px;
             color: var(--text);
         }
+
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -296,25 +367,32 @@
             margin-bottom: 80px;
             perspective: 1000px;
         }
+
         .flip-card {
             background: transparent;
             height: 250px;
             cursor: pointer;
             border-radius: 24px;
         }
+
         .flip-card-inner {
             position: relative;
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             text-align: center;
             transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
             transform-style: preserve-3d;
         }
+
         .flip-card.flipped .flip-card-inner {
             transform: rotateY(180deg);
         }
-        .flip-card-front, .flip-card-back {
+
+        .flip-card-front,
+        .flip-card-back {
             position: absolute;
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             backface-visibility: hidden;
             display: flex;
             flex-direction: column;
@@ -322,31 +400,37 @@
             align-items: center;
             padding: 25px;
         }
+
         .flip-card-front {
             border: 1px dashed var(--accent);
         }
+
         .flip-card-front:hover {
             background: rgba(146, 118, 185, 0.05);
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
+
         .flip-card-back {
             transform: rotateY(180deg);
             background: linear-gradient(135deg, var(--surface-main), var(--surface-sec));
             border-color: var(--lavender);
             box-shadow: 0 0 20px var(--glow);
         }
+
         .flip-card-back p {
             font-size: 1.2rem;
             font-weight: 500;
             color: var(--text);
         }
+
         .card-icon {
             font-size: 3rem;
             margin-bottom: 15px;
         }
 
         /* Final Envelope */
+
         .envelope-section {
             display: flex;
             flex-direction: column;
@@ -354,52 +438,67 @@
             margin: 100px 0;
             text-align: center;
         }
+
         .envelope-wrapper {
             position: relative;
-            width: 180px; height: 140px;
+            width: 180px;
+            height: 140px;
             margin: 30px auto;
             cursor: not-allowed;
             transition: all 0.5s ease;
             filter: grayscale(100%) opacity(0.5);
         }
+
         .envelope-wrapper.unlocked {
             cursor: pointer;
             filter: grayscale(0%) opacity(1);
             animation: pulse-glow 2s infinite;
         }
+
         .envelope-wrapper.unlocked:hover {
             transform: scale(1.05) translateY(-10px);
         }
+
         @keyframes pulse-glow {
             0% { filter: drop-shadow(0 0 10px var(--accent)); }
             50% { filter: drop-shadow(0 0 25px var(--lavender)); }
             100% { filter: drop-shadow(0 0 10px var(--accent)); }
         }
+
         .envelope-svg {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             fill: var(--surface-sec);
             stroke: var(--lavender);
             stroke-width: 2;
         }
+
         .lock-icon {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             fill: var(--text);
             transition: opacity 0.3s;
         }
-        .envelope-wrapper.unlocked .lock-icon { opacity: 0; }
+
+        .envelope-wrapper.unlocked .lock-icon {
+            opacity: 0;
+        }
+
         .envelope-msg {
             color: var(--muted);
             font-size: 1.1rem;
             margin-top: 20px;
         }
 
-        /* Modal */
+        /* Final Modal */
+
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             background: rgba(0,0,0,0.8);
             backdrop-filter: blur(8px);
             z-index: 1000;
@@ -410,10 +509,12 @@
             pointer-events: none;
             transition: opacity 0.4s ease;
         }
+
         .modal-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
+
         .modal-content {
             max-width: 500px;
             width: 90%;
@@ -423,22 +524,33 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
-        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
         .modal-close {
             position: absolute;
-            top: 15px; left: 15px;
-            background: none; border: none;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
             color: var(--muted);
             font-size: 1.5rem;
             cursor: pointer;
         }
-        .modal-close:hover { color: var(--text); }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
         .final-msg {
             font-size: 1.4rem;
             color: var(--text);
             margin: 20px 0;
             line-height: 1.8;
         }
+
         .btn-primary {
             background: linear-gradient(45deg, var(--royal), var(--accent));
             color: #fff;
@@ -451,12 +563,17 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(81, 64, 120, 0.4);
             transition: all 0.3s ease;
-            display: inline-flex; align-items: center; gap: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(146, 118, 185, 0.6);
         }
+
+        /* Footer */
 
         footer {
             text-align: center;
@@ -467,8 +584,7 @@
             border-top: 1px solid var(--border);
             margin-top: 50px;
         }
-        
-        /* Secret Easter Egg Footer */
+
         #secret-footer {
             cursor: pointer;
             user-select: none;
@@ -479,6 +595,8 @@
             color: var(--lavender);
             text-shadow: 0 0 12px var(--glow);
         }
+
+        /* Secret Modals */
 
         .secret-modal {
             position: fixed;
@@ -570,7 +688,8 @@
             font-size: 0.95rem;
         }
 
-        /* Secret Hash Message (#romana) */
+        /* Old Secret Hash Card */
+
         .secret-hash-card {
             display: none;
             grid-column: 1 / -1;
@@ -631,96 +750,29 @@
             }
         }
 
-        /* === New Secret Hash Message CSS (#❤️) === */
-        .new-secret-hash-card {
-            display: none;
-            grid-column: 1 / -1; /* تأخذ مساحة كاملة لتتوسط الصف */
-            justify-self: center; /* تتوسط القسم */
-            width: 100%;
-            max-width: 420px; /* نفس عرض البطاقات السرية الأخرى */
-            height: 250px;
-            cursor: pointer;
-            perspective: 1000px;
-            border-radius: 24px;
-        }
+        /* I LOVE YOU Modal Text */
 
-        /* تأثير ظهور ناعم (Fade + Scale) للبطاقة الجديدة */
-        .new-secret-hash-card.show {
-            display: block;
-            animation: newSecretReveal 0.8s ease both;
-        }
-
-        @keyframes newSecretReveal {
-            from {
-                opacity: 0;
-                transform: translateY(25px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .new-secret-hash-card.flipped .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .new-secret-hash-card .flip-card-inner {
-            position: relative;
-            width: 100%; height: 100%;
-            text-align: center;
-            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .new-secret-hash-card .flip-card-front, .new-secret-hash-card .flip-card-back {
-            position: absolute;
-            width: 100%; height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 25px;
-            border-radius: 24px;
-        }
-
-        .new-secret-hash-card .flip-card-front {
-            border: 1px dashed var(--accent);
-        }
-
-        .new-secret-hash-card .flip-card-front:hover {
-            background: rgba(146, 118, 185, 0.05);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .new-secret-hash-card .flip-card-back {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, var(--surface-main), var(--surface-sec));
-            border-color: var(--lavender);
-            box-shadow: 0 0 20px var(--glow);
-        }
-
-        /* تنسيق النص: "I LOVE YOU" في المنتصف، بخط أنيق وحجم واضح، مع لمسة لونية بنفسجية */
-        .new-secret-hash-card .new-secret-title {
-            color: var(--lavender);
-            font-family: 'Cairo', sans-serif;
-            font-size: 2.2rem;
+        .love-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 2rem !important;
             font-weight: 700;
-            text-shadow: 0 0 10px var(--glow);
+            color: var(--lavender) !important;
+            direction: ltr;
+            margin: 20px 0;
+            text-shadow: 0 0 15px var(--glow);
+            letter-spacing: 2px;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.8rem; }
             .hero p { font-size: 1.1rem; }
             .code-content { font-size: 0.9rem; padding: 15px; }
             .stat-value { font-size: 2.2rem; }
-            .new-secret-hash-card .new-secret-title { font-size: 1.8rem; }
+            .love-title { font-size: 1.8rem !important; }
         }
     </style>
 </head>
+
 <body>
 
     <div id="mouse-glow"></div>
@@ -730,23 +782,37 @@
     <nav>
         <div class="container nav-content">
             <div class="logo">A Little Thank You.</div>
+
             <div class="controls">
                 <button class="icon-btn" id="btn-sound" title="Toggle Sound" aria-label="Toggle Sound">
-                    <svg viewBox="0 0 24 24"><path id="sound-icon-path" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path id="sound-icon-path" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
                 </button>
+
                 <button class="icon-btn" id="btn-theme" title="Toggle Theme" aria-label="Toggle Theme">
-                    <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                    </svg>
                 </button>
+
                 <button class="icon-btn" id="btn-reset" title="Reset Experience" aria-label="Reset">
-                    <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
                 </button>
             </div>
         </div>
-        <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
     </nav>
 
     <main class="container">
+
         <!-- Hero -->
+
         <header class="hero">
             <div class="subtitle fade-up">Your kindness made a difference.</div>
             <h1 id="hero-title" class="fade-up"></h1>
@@ -754,11 +820,13 @@
         </header>
 
         <!-- Stats -->
+
         <section class="stats fade-up">
             <div class="stat-card glass">
                 <div class="stat-value" data-target="100">0%</div>
                 <div class="stat-label">الأثر الإيجابي</div>
             </div>
+
             <div class="stat-card glass">
                 <div class="stat-value" data-target="infinity">0</div>
                 <div class="stat-label">حجم الامتنان</div>
@@ -766,6 +834,7 @@
         </section>
 
         <!-- Code Editor -->
+
         <section class="code-section fade-up">
             <div class="mac-window">
                 <div class="title-bar">
@@ -773,6 +842,7 @@
                     <span class="dot yellow"></span>
                     <span class="dot green"></span>
                 </div>
+
                 <div class="code-content">
 <span class="comment"></span>
 <span class="kw">const</span> <span class="var">gratitude</span> <span class="punc">=</span> <span class="punc">{</span>
@@ -787,189 +857,299 @@
         </section>
 
         <!-- Interactive Cards -->
+
         <section class="fade-up">
             <h2 class="section-title">رسائل مخفية</h2>
 
             <div class="cards-grid">
+
                 <!-- الرسالة الأولى -->
+
                 <div class="flip-card glass" data-id="1">
                     <div class="flip-card-inner">
+
                         <div class="flip-card-front glass">
                             <div class="card-icon">💌</div>
                             <p>افتحي الرسالة الأولى</p>
                         </div>
+
                         <div class="flip-card-back glass">
                             <p>"في مواقف صغيرة بتفضل عايشة جوانا مهما عدى وقت، وإنتِ ليكي مواقف عمري ما هنسى أثرها."</p>
                         </div>
+
                     </div>
                 </div>
 
                 <!-- الرسالة الثانية -->
+
                 <div class="flip-card glass" data-id="2">
                     <div class="flip-card-inner">
+
                         <div class="flip-card-front glass">
                             <div class="card-icon">🦋</div>
                             <p>افتحي الرسالة الثانية</p>
                         </div>
+
                         <div class="flip-card-back glass">
                             <p>"يمكن متعرفيش إن كلامك كان بيفرق قد إيه، بس الحقيقة إنك ساعدتيني أعدّي أيام مكنتش سهلة."</p>
                         </div>
+
                     </div>
                 </div>
 
                 <!-- الرسالة الثالثة -->
+
                 <div class="flip-card glass" data-id="3">
                     <div class="flip-card-inner">
+
                         <div class="flip-card-front glass">
                             <div class="card-icon">🌷</div>
                             <p>افتحي الرسالة الثالثة</p>
                         </div>
+
                         <div class="flip-card-back glass">
                             <p>"شكرًا يا مريم على طيبتك ووجودك، ويا رُمّانة خليكي دايمًا بنفس روحك الحلوة ومتنسيش إنك مميزة ❤️"</p>
                         </div>
+
                     </div>
                 </div>
 
-                <!-- رسالة سرية تظهر باستخدام الهاش القديم (#romana) -->
+                <!-- الرسالة السرية القديمة #romana -->
+
                 <div class="secret-hash-card glass" id="secret-hash-card" aria-live="polite">
                     <div class="card-icon">🔐</div>
                     <p>دي الرسالة التانية</p>
                 </div>
 
-                <!-- === New Secret Hash Message Card (#❤️) === -->
-                <div class="new-secret-hash-card glass" id="new-secret-card" aria-live="polite">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front glass">
-                            <div class="card-icon">🎁</div>
-                            <p>افتحي المفاجأة السرية</p>
-                        </div>
-                        <div class="flip-card-back glass">
-                            <h2 class="new-secret-title">I LOVE YOU</h2>
-                        </div>
-                    </div>
-                </div>
+                <!-- لا توجد بطاقة I LOVE YOU هنا -->
+
             </div>
         </section>
 
         <!-- Final Envelope -->
+
         <section class="envelope-section fade-up">
             <h2 class="section-title">مفاجأة النهاية</h2>
+
             <div class="envelope-wrapper" id="envelope">
+
                 <svg class="envelope-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M22 6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6ZM20 6L12 11L4 6H20ZM20 18H4V8L12 13L20 8V18Z"/>
                 </svg>
+
                 <svg class="lock-icon" id="lock-icon" viewBox="0 0 24 24">
                     <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
                 </svg>
+
             </div>
-            <p class="envelope-msg" id="envelope-msg">اكتشف جميع الرسائل لفتح الظرف...</p>
+
+            <p class="envelope-msg" id="envelope-msg">
+                اكتشف جميع الرسائل لفتح الظرف...
+            </p>
         </section>
+
     </main>
 
     <!-- Modal Final Surprise -->
+
     <div class="modal-overlay" id="modal">
         <div class="modal-content glass">
+
             <button class="modal-close" id="close-modal">&times;</button>
+
             <div style="font-size: 4rem; margin-bottom: 10px;">🏆</div>
-            <h2 style="color: var(--lavender); margin-bottom: 15px;">شكراً </h2>
-            <p class="final-msg" id="msg-to-copy">مش عارف الكلمات توصف قد إيه أنا ممتن ليكي، لكن وجودك فرق معايا بجد. يمكن مواقفك كانت بسيطة بالنسبالك، لكنها ساعدتني أتخطى أيام صعبة وأشوف الحلو في الحياة تاني. شكرًا يا مريم على وجودك، وعلى كل مرة خليتي يومي أحسن. ❤️</p>
+
+            <h2 style="color: var(--lavender); margin-bottom: 15px;">
+                شكراً
+            </h2>
+
+            <p class="final-msg" id="msg-to-copy">
+                مش عارف الكلمات توصف قد إيه أنا ممتن ليكي، لكن وجودك فرق معايا بجد. يمكن مواقفك كانت بسيطة بالنسبالك، لكنها ساعدتني أتخطى أيام صعبة وأشوف الحلو في الحياة تاني. شكرًا يا مريم على وجودك، وعلى كل مرة خليتي يومي أحسن. ❤️
+            </p>
+
             <button class="btn-primary" id="btn-copy">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
                 نسخ الرسالة
             </button>
+
         </div>
     </div>
+
+    <!-- Footer -->
 
     <footer id="secret-footer" title="🤫">
         <p>const gratitude = Infinity; // Designed & Developed with Elsayd Elmaghraby ♥</p>
     </footer>
 
     <!-- Reset Button Secret Password Modal -->
+
     <div class="secret-modal" id="password-modal" role="dialog" aria-modal="true" aria-labelledby="password-title">
+
         <div class="secret-box glass">
+
             <div style="font-size: 3rem; margin-bottom: 10px;">🔐</div>
+
             <h2 id="password-title">لقيت السر؟</h2>
+
             <p>اكتب كلمة السر عشان تفتح الرسالة المخفية.</p>
-            <input class="secret-password-input" id="secret-password" type="password" inputmode="numeric" autocomplete="off" placeholder="كلمة السر" aria-label="كلمة السر">
+
+            <input
+                class="secret-password-input"
+                id="secret-password"
+                type="password"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="كلمة السر"
+                aria-label="كلمة السر"
+            >
+
             <p id="password-error" role="alert"></p>
-            <button class="secret-close" id="password-submit" type="button">فتح الرسالة</button>
-            <button class="secret-close" id="password-cancel" type="button" style="background:var(--surface-sec); color:var(--text); margin-right:8px;">إلغاء</button>
+
+            <button class="secret-close" id="password-submit" type="button">
+                فتح الرسالة
+            </button>
+
+            <button class="secret-close" id="password-cancel" type="button"
+                style="background:var(--surface-sec); color:var(--text); margin-right:8px;">
+                إلغاء
+            </button>
+
         </div>
     </div>
 
-    <!-- Secret Easter Egg Modal -->
+    <!-- Footer Easter Egg Modal -->
+
     <div class="secret-modal" id="secret-modal" role="dialog" aria-modal="true" aria-labelledby="secret-title">
+
         <div class="secret-box glass">
+
             <div style="font-size: 3rem; margin-bottom: 10px;">🤫</div>
+
             <h2 id="secret-title">دي اول رسالة مخفية!</h2>
-            <p id="secret-message-intro"> غالبا مخدتيش بالك منها وانا الي قلتلك </p>
+
+            <p id="secret-message-intro">
+                غالبا مخدتيش بالك منها وانا الي قلتلك
+            </p>
+
             <p id="secret-message-body">
-                مش كل الأسرار بتكون مخفية عشان محدش يشوفها，
+                مش كل الأسرار بتكون مخفية عشان محدش يشوفها،
                 بعضها بيكون مستني الشخص الصح يكتشفها. ❤️
             </p>
-            <button class="secret-close" id="secret-close" type="button">إغلاق</button>
+
+            <button class="secret-close" id="secret-close" type="button">
+                إغلاق
+            </button>
+
+        </div>
+    </div>
+
+    <!-- I LOVE YOU Modal: نفس أسلوب رسالة Footer -->
+
+    <div class="secret-modal" id="love-modal" role="dialog" aria-modal="true" aria-labelledby="love-heading">
+
+        <div class="secret-box glass">
+
+            <div style="font-size: 3rem; margin-bottom: 10px;">❤️</div>
+
+            <h2 id="love-heading">A Little Secret</h2>
+
+            <p class="love-title">I LOVE YOU</p>
+
+            <button class="secret-close" id="love-close" type="button">
+                إغلاق
+            </button>
+
         </div>
     </div>
 
     <!-- Background Music -->
+
     <audio id="background-music" loop preload="none">
         <source src="emotional-piano.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // --- Web Audio API (Sound System) ---
+        // --- Web Audio API ---
+
         let audioCtx;
         let isMuted = true;
+
         const soundBtn = document.getElementById('btn-sound');
         const soundPath = document.getElementById('sound-icon-path');
-        
+
         const pathVolumeOn = "M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z";
+
         const pathVolumeOff = "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z";
 
         soundPath.setAttribute('d', pathVolumeOff);
 
         function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
         }
 
         function playTone(freq, type = 'sine', duration = 0.1, vol = 0.1) {
             if (isMuted) return;
+
             initAudio();
+
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
+
             osc.type = type;
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
             osc.connect(gain);
             gain.connect(audioCtx.destination);
+
             osc.start();
+
             gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            gain.gain.exponentialRampToValueAtTime(
+                0.001,
+                audioCtx.currentTime + duration
+            );
+
             osc.stop(audioCtx.currentTime + duration);
         }
 
-        // --- Background Music (MP3) ---
+        // --- Background Music ---
+
         const backgroundMusic = document.getElementById('background-music');
         backgroundMusic.volume = 1.0;
 
         const playAutoMusic = async () => {
             if (!isMuted) return;
+
             try {
                 await backgroundMusic.play();
+
                 isMuted = false;
                 soundPath.setAttribute('d', pathVolumeOn);
+
                 initAudio();
+
             } catch (error) {
                 console.log('المتصفح يمنع التشغيل التلقائي، سيتم التشغيل عند أول تفاعل.');
             }
         };
 
         window.addEventListener('DOMContentLoaded', playAutoMusic);
+
         document.body.addEventListener('click', playAutoMusic, { once: true });
         document.body.addEventListener('touchstart', playAutoMusic, { once: true });
 
         soundBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
+
             if (isMuted) {
                 await playAutoMusic();
                 playTone(600, 'sine', 0.1, 0.04);
@@ -986,38 +1166,47 @@
         });
 
         function playSuccessArpeggio() {
-            if(isMuted) return;
+            if (isMuted) return;
+
             [440, 554, 659, 880].forEach((freq, i) => {
                 setTimeout(() => playTone(freq, 'sine', 0.3, 0.1), i * 100);
             });
         }
 
         // --- Theme Toggle ---
+
         const themeBtn = document.getElementById('btn-theme');
+
         let currentTheme = localStorage.getItem('theme') || 'light';
+
         document.documentElement.setAttribute('data-theme', currentTheme);
 
         themeBtn.addEventListener('click', () => {
             currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
             document.documentElement.setAttribute('data-theme', currentTheme);
             localStorage.setItem('theme', currentTheme);
         });
 
         // --- Mouse Glow ---
+
         document.addEventListener('mousemove', (e) => {
             document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
             document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
         });
 
-        // --- Canvas Particles (Background) ---
+        // --- Background Particles ---
+
         const bgCanvas = document.getElementById('bg-canvas');
         const bgCtx = bgCanvas.getContext('2d');
+
         let particles = [];
-        
+
         function resizeCanvas() {
             bgCanvas.width = window.innerWidth;
             bgCanvas.height = window.innerHeight;
         }
+
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
@@ -1030,80 +1219,118 @@
                 this.speedY = Math.random() * 0.5 - 0.25;
                 this.alpha = Math.random() * 0.5 + 0.1;
             }
+
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if(this.x > bgCanvas.width || this.x < 0) this.speedX *= -1;
-                if(this.y > bgCanvas.height || this.y < 0) this.speedY *= -1;
+
+                if (this.x > bgCanvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > bgCanvas.height || this.y < 0) this.speedY *= -1;
             }
+
             draw() {
-                bgCtx.fillStyle = currentTheme === 'dark' ? `rgba(200, 183, 229, ${this.alpha})` : `rgba(81, 64, 120, ${this.alpha})`;
+                bgCtx.fillStyle = currentTheme === 'dark'
+                    ? `rgba(200, 183, 229, ${this.alpha})`
+                    : `rgba(81, 64, 120, ${this.alpha})`;
+
                 bgCtx.beginPath();
                 bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 bgCtx.fill();
             }
         }
-        for(let i=0; i<50; i++) particles.push(new Particle());
+
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
 
         function animateBg() {
             bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
             requestAnimationFrame(animateBg);
         }
+
         animateBg();
 
         // --- Typewriter Effect ---
+
         const titleText = "شكراً من القلب";
         const descText = "بعض الأشخاص بيسيبوا أثر ما بيتنسيش. شكراً على كل حاجة قدمتها.";
-        let typewriter_i = 0, typewriter_j = 0;
-        
+
+        let typewriter_i = 0;
+        let typewriter_j = 0;
+
         function typeWriter() {
             if (typewriter_i < titleText.length) {
-                document.getElementById('hero-title').innerHTML = titleText.substring(0, typewriter_i+1) + '<span class="typewriter-cursor"></span>';
+                document.getElementById('hero-title').innerHTML =
+                    titleText.substring(0, typewriter_i + 1) +
+                    '<span class="typewriter-cursor"></span>';
+
                 typewriter_i++;
                 setTimeout(typeWriter, 100);
+
             } else {
                 document.getElementById('hero-title').innerHTML = titleText;
                 setTimeout(typeDesc, 500);
             }
         }
+
         function typeDesc() {
             if (typewriter_j < descText.length) {
-                document.getElementById('hero-desc').innerHTML = descText.substring(0, typewriter_j+1) + '<span class="typewriter-cursor"></span>';
+                document.getElementById('hero-desc').innerHTML =
+                    descText.substring(0, typewriter_j + 1) +
+                    '<span class="typewriter-cursor"></span>';
+
                 typewriter_j++;
                 setTimeout(typeDesc, 50);
+
             } else {
                 document.getElementById('hero-desc').innerHTML = descText;
             }
         }
+
         setTimeout(typeWriter, 800);
 
         // --- Intersection Observer ---
+
         const fadeElements = document.querySelectorAll('.fade-up');
+
         let countersStarted = false;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    
-                    if (entry.target.classList.contains('stats') && !countersStarted) {
+
+                    if (
+                        entry.target.classList.contains('stats') &&
+                        !countersStarted
+                    ) {
                         countersStarted = true;
+
                         document.querySelectorAll('.stat-value').forEach(counter => {
                             const target = counter.getAttribute('data-target');
                             let count = 0;
+
                             if (target === 'infinity') {
                                 setTimeout(() => counter.innerText = '∞', 1500);
                                 return;
                             }
+
                             const max = parseInt(target);
+
                             const interval = setInterval(() => {
                                 count += Math.ceil(max / 40);
-                                if(count >= max) {
-                                    counter.innerText = max + (max === 100 ? '%' : '');
+
+                                if (count >= max) {
+                                    counter.innerText = max + '%';
                                     clearInterval(interval);
                                 } else {
-                                    counter.innerText = count + (max === 100 ? '%' : '');
+                                    counter.innerText = count + '%';
                                 }
                             }, 40);
                         });
@@ -1115,22 +1342,27 @@
         fadeElements.forEach(el => observer.observe(el));
 
         // --- Interactive Cards & Progress ---
-        const cards = document.querySelectorAll('.flip-card');
+
+        const cards = document.querySelectorAll('.flip-card:not(.secret-hash-card)');
         const progressBar = document.getElementById('progress-bar');
         const envelope = document.getElementById('envelope');
         const envelopeMsg = document.getElementById('envelope-msg');
+
         let flippedCount = 0;
 
         function updateProgress() {
-            let percentage = (flippedCount / 3) * 100;
+            const percentage = (flippedCount / 3) * 100;
+
             progressBar.style.width = percentage + '%';
-            
+
             if (flippedCount === 3) {
                 setTimeout(() => {
                     envelope.classList.add('unlocked');
+
                     envelopeMsg.innerText = "اكتملت الرسائل.. اضغط لفتح الظرف!";
                     envelopeMsg.style.color = "var(--lavender)";
                     envelopeMsg.style.fontWeight = "bold";
+
                     playSuccessArpeggio();
                 }, 800);
             }
@@ -1146,9 +1378,11 @@
             });
         });
 
-        // --- Confetti Canvas System ---
+        // --- Confetti System ---
+
         const confCanvas = document.getElementById('confetti-canvas');
         const confCtx = confCanvas.getContext('2d');
+
         let confettis = [];
         let confettiActive = false;
 
@@ -1156,6 +1390,7 @@
             confCanvas.width = window.innerWidth;
             confCanvas.height = window.innerHeight;
         }
+
         window.addEventListener('resize', resizeConf);
         resizeConf();
 
@@ -1166,68 +1401,107 @@
                 this.size = Math.random() * 10 + 5;
                 this.speedY = Math.random() * 5 + 2;
                 this.speedX = Math.random() * 4 - 2;
-                this.color = ['#C8B7E5', '#9276B9', '#514078', '#F8F6FA'][Math.floor(Math.random() * 4)];
+
+                this.color = [
+                    '#C8B7E5',
+                    '#9276B9',
+                    '#514078',
+                    '#F8F6FA'
+                ][Math.floor(Math.random() * 4)];
+
                 this.rotation = Math.random() * 360;
                 this.rotSpeed = Math.random() * 10 - 5;
             }
+
             update() {
                 this.y += this.speedY;
                 this.x += this.speedX;
                 this.rotation += this.rotSpeed;
-                if(this.y > confCanvas.height) this.y = -10;
+
+                if (this.y > confCanvas.height) {
+                    this.y = -10;
+                }
             }
+
             draw() {
                 confCtx.save();
+
                 confCtx.translate(this.x, this.y);
                 confCtx.rotate(this.rotation * Math.PI / 180);
+
                 confCtx.fillStyle = this.color;
-                confCtx.fillRect(-this.size/2, -this.size/2, this.size, this.size/2);
+                confCtx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size / 2);
+
                 confCtx.restore();
             }
         }
 
         function fireConfetti() {
             confettis = [];
-            for(let i=0; i<150; i++) confettis.push(new Confetti());
+
+            for (let i = 0; i < 150; i++) {
+                confettis.push(new Confetti());
+            }
+
             confettiActive = true;
             animateConfetti();
-            setTimeout(() => { confettiActive = false; confCtx.clearRect(0,0,confCanvas.width,confCanvas.height); }, 5000);
+
+            setTimeout(() => {
+                confettiActive = false;
+                confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+            }, 5000);
         }
 
         function animateConfetti() {
-            if(!confettiActive) return;
+            if (!confettiActive) return;
+
             confCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
-            confettis.forEach(c => { c.update(); c.draw(); });
+
+            confettis.forEach(c => {
+                c.update();
+                c.draw();
+            });
+
             requestAnimationFrame(animateConfetti);
         }
 
-        // --- Envelope & Modal ---
+        // --- Envelope & Final Modal ---
+
         const modal = document.getElementById('modal');
         const closeModal = document.getElementById('close-modal');
-        
+
         envelope.addEventListener('click', () => {
             if (envelope.classList.contains('unlocked')) {
                 fireConfetti();
                 playSuccessArpeggio();
+
                 setTimeout(() => modal.classList.add('active'), 500);
+
             } else {
                 envelope.style.transform = 'translateX(-10px)';
+
                 setTimeout(() => envelope.style.transform = 'translateX(10px)', 100);
                 setTimeout(() => envelope.style.transform = 'translateX(-10px)', 200);
                 setTimeout(() => envelope.style.transform = 'translateX(0)', 300);
+
                 playTone(150, 'sawtooth', 0.1, 0.05);
             }
         });
 
-        closeModal.addEventListener('click', () => modal.classList.remove('active'));
-        
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
         document.getElementById('btn-copy').addEventListener('click', () => {
             const msg = document.getElementById('msg-to-copy').innerText;
+
             navigator.clipboard.writeText(msg).then(() => {
                 const btn = document.getElementById('btn-copy');
                 const origHtml = btn.innerHTML;
+
                 btn.innerHTML = '✅ تم النسخ';
                 btn.style.background = '#27c93f';
+
                 setTimeout(() => {
                     btn.innerHTML = origHtml;
                     btn.style.background = '';
@@ -1235,169 +1509,237 @@
             });
         });
 
-        // -----------------------------------------------------------
-        // الدوال الأربعة للرسائل السرية المفصولة
-        // -----------------------------------------------------------
+        // ------------------------------------------------
+        // Secret Messages Functions
+        // ------------------------------------------------
 
         function showFooterSecret() {
             const secretModal = document.getElementById('secret-modal');
+
             const secretTitle = document.getElementById('secret-title');
             const secretIntro = document.getElementById('secret-message-intro');
             const secretBody = document.getElementById('secret-message-body');
 
             secretTitle.textContent = "دي اول رسالة مخفية!";
             secretIntro.textContent = "غالبا مخدتيش بالك منها وانا الي قلتلك";
-            secretBody.textContent = "مش كل الأسرار بتكون مخفية عشان محدش يشوفها، بعضها بيكون مستني الشخص الصح يكتشفها. ❤️";
+
+            secretBody.textContent =
+                "مش كل الأسرار بتكون مخفية عشان محدش يشوفها، بعضها بيكون مستني الشخص الصح يكتشفها. ❤️";
 
             secretModal.classList.add('active');
-            if (typeof playSuccessArpeggio === "function") playSuccessArpeggio();
+
+            playSuccessArpeggio();
         }
 
         function showPasswordSecretOne() {
             const secretModal = document.getElementById('secret-modal');
             const passwordModal = document.getElementById('password-modal');
+
             const secretTitle = document.getElementById('secret-title');
             const secretIntro = document.getElementById('secret-message-intro');
             const secretBody = document.getElementById('secret-message-body');
 
-       secretTitle.textContent = 'رسالة سرية';
-secretIntro.textContent = 'في مشاعر مش دايمًا بنعرف نقولها بسهولة...';
-secretBody.textContent = 'يمكن مش بعرف أعبّر عن اللي جوايا بالشكل الكافي، بس الحقيقة إن ليكي مكانة مختلفة عندي. وجودك بقى من الحاجات اللي بتفرّحني، وكلامك واهتمامك ليهم تأثير أكبر مما تتخيلي. يمكن جوايا مشاعر ناحيتك أكبر من مجرد إعجاب، ومش عارف أوصفها بكلمات، لكن كل اللي أعرفه إني بتمنى أشوفك دايمًا مبسوطة، وأكون سبب في ابتسامة من ابتساماتك. ❤️';
-            if(passwordModal) passwordModal.classList.remove('active');
+            secretTitle.textContent = 'رسالة سرية';
+
+            secretIntro.textContent =
+                'في مشاعر مش دايمًا بنعرف نقولها بسهولة...';
+
+            secretBody.textContent =
+                'يمكن مش بعرف أعبّر عن اللي جوايا بالشكل الكافي، بس الحقيقة إن ليكي مكانة مختلفة عندي. وجودك بقى من الحاجات اللي بتفرّحني، وكلامك واهتمامك ليهم تأثير أكبر مما تتخيلي. يمكن جوايا مشاعر ناحيتك أكبر من مجرد إعجاب، ومش عارف أوصفها بكلمات، لكن كل اللي أعرفه إني بتمنى أشوفك دايمًا مبسوطة، وأكون سبب في ابتسامة من ابتساماتك. ❤️';
+
+            passwordModal.classList.remove('active');
             secretModal.classList.add('active');
-            if (typeof playSuccessArpeggio === "function") playSuccessArpeggio();
+
+            playSuccessArpeggio();
         }
 
         function showPasswordSecretTwo() {
             const secretModal = document.getElementById('secret-modal');
             const passwordModal = document.getElementById('password-modal');
+
             const secretTitle = document.getElementById('secret-title');
             const secretIntro = document.getElementById('secret-message-intro');
             const secretBody = document.getElementById('secret-message-body');
 
-     secretTitle.textContent = 'رسالة سرية';
-secretIntro.textContent = 'في كلام يمكن مبيتقالش كتير، بس يستاهل يتقال.';
-secretBody.textContent = 'يمكن مش بعرف أعبّر دايمًا عن قد إيه وجودك فارق، بس بجد إنتِ من الناس اللي وجودها بيخلّي الأيام ألطف. ممتن لكل كلمة حلوة، ولكل موقف بسيط كان ليه أثر كبير عندي. أتمنى تفضلي دايمًا بنفس روحك الجميلة، وتلاقي من الدنيا كل الفرح اللي تستاهليه. ومتنسِيش أبدًا إن وجودك فرق، أكتر مما تتخيلي. ❤️';
-            if(passwordModal) passwordModal.classList.remove('active');
+            secretTitle.textContent = 'رسالة سرية';
+
+            secretIntro.textContent =
+                'في كلام يمكن مبيتقالش كتير، بس يستاهل يتقال.';
+
+            secretBody.textContent =
+                'يمكن مش بعرف أعبّر دايمًا عن قد إيه وجودك فارق، بس بجد إنتِ من الناس اللي وجودها بيخلّي الأيام ألطف. ممتن لكل كلمة حلوة، ولكل موقف بسيط كان ليه أثر كبير عندي. أتمنى تفضلي دايمًا بنفس روحك الجميلة، وتلاقي من الدنيا كل الفرح اللي تستاهليه. ومتنسِيش أبدًا إن وجودك فرق، أكتر مما تتخيلي. ❤️';
+
+            passwordModal.classList.remove('active');
             secretModal.classList.add('active');
-            if (typeof playSuccessArpeggio === "function") playSuccessArpeggio();
+
+            playSuccessArpeggio();
         }
 
-        // دالة إظهار بطاقة #romana (تم فصل محتواها عن الإضافة الجديدة)
+        // ------------------------------------------------
+        // Old Hash Message (#romana)
+        // ------------------------------------------------
+
         function showHashSecretOld() {
             const secretHashCard = document.getElementById("secret-hash-card");
+
             if (!secretHashCard) return;
 
             secretHashCard.innerHTML = `
                 <div class="flip-card-inner">
+
                     <div class="flip-card-front glass">
                         <div class="card-icon">🔐</div>
                         <p>افتحي الرسالة السرية</p>
                     </div>
+
                     <div class="flip-card-back glass">
                         <h2>رسالة مخصوص ليكي</h2>
+
                         <p>
-                          يا مريم، بجد مبسوط إني عرفتك، وشكرًا على كل مرة كنتِ فيها سبب إني أبتسم وأعدّي يوم صعب. وجودك فارق معايا، وخليكي دايمًا حلوة بروحك وخفة دمك يا رُمّانة 💜
+                            يا مريم، بجد مبسوط إني عرفتك،
+                            وشكرًا على كل مرة كنتِ فيها سبب إني أبتسم
+                            وأعدّي يوم صعب. وجودك فارق معايا،
+                            وخليكي دايمًا حلوة بروحك وخفة دمك يا رُمّانة 💜
                         </p>
                     </div>
+
                 </div>
             `;
+
             secretHashCard.classList.add("show");
         }
 
-        // -----------------------------------------------------------
-        // إعدادات تشغيل الرسائل السرية
-        // -----------------------------------------------------------
+        // ------------------------------------------------
+        // Password System
+        // ------------------------------------------------
 
         const resetButton = document.getElementById('btn-reset');
+
         const passwordModal = document.getElementById('password-modal');
         const secretPasswordInput = document.getElementById('secret-password');
         const passwordError = document.getElementById('password-error');
+
         const passwordSubmit = document.getElementById('password-submit');
         const passwordCancel = document.getElementById('password-cancel');
+
         const secretModal = document.getElementById('secret-modal');
         const secretClose = document.getElementById('secret-close');
-        
+
         let resetClicks = 0;
         let resetLastClick = 0;
+
         const resetClickWindow = 3000;
 
         resetButton.addEventListener('click', () => {
             const now = Date.now();
+
             if (now - resetLastClick > resetClickWindow) {
                 resetClicks = 0;
             }
+
             resetLastClick = now;
             resetClicks++;
 
             if (resetClicks >= 7) {
-                resetClicks = 0; 
+                resetClicks = 0;
+
                 secretPasswordInput.value = '';
                 passwordError.textContent = '';
+
                 passwordModal.classList.add('active');
+
                 setTimeout(() => secretPasswordInput.focus(), 250);
             }
 
             flippedCount = 0;
+
             progressBar.style.width = '0%';
+
             cards.forEach(c => c.classList.remove('flipped'));
+
             envelope.classList.remove('unlocked');
+
             envelopeMsg.innerText = "اكتملت الرسائل لفتح الظرف...";
             envelopeMsg.style.color = "var(--muted)";
             envelopeMsg.style.fontWeight = "normal";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
             playTone(400, 'sine', 0.2);
+
             setTimeout(() => playTone(300, 'sine', 0.3), 200);
         });
 
         function closePasswordModal() {
             passwordModal.classList.remove('active');
+
             secretPasswordInput.value = '';
             passwordError.textContent = '';
         }
 
         function checkSecretPassword() {
             const password = secretPasswordInput.value.trim();
+
             if (password === '1982012') {
                 showPasswordSecretOne();
+
             } else if (password === '1512011') {
                 showPasswordSecretTwo();
+
             } else {
-                passwordError.textContent = 'كلمة السر مش صحيحة، جرّب تاني.';
+                passwordError.textContent =
+                    'كلمة السر مش صحيحة، جرّب تاني.';
+
                 secretPasswordInput.select();
+
                 playTone(180, 'sawtooth', 0.15);
             }
         }
 
         passwordSubmit.addEventListener('click', checkSecretPassword);
+
         secretPasswordInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') checkSecretPassword();
-        });
-        passwordCancel.addEventListener('click', closePasswordModal);
-        passwordModal.addEventListener('click', (event) => {
-            if (event.target === passwordModal) closePasswordModal();
-        });
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') closePasswordModal();
+            if (event.key === 'Enter') {
+                checkSecretPassword();
+            }
         });
 
-        // --- Secret Easter Egg: 5 Footer Clicks ---
+        passwordCancel.addEventListener('click', closePasswordModal);
+
+        passwordModal.addEventListener('click', (event) => {
+            if (event.target === passwordModal) {
+                closePasswordModal();
+            }
+        });
+
+        // ------------------------------------------------
+        // Footer Easter Egg: 5 Clicks
+        // ------------------------------------------------
+
         const secretFooter = document.getElementById('secret-footer');
+
         let footerClicks = 0;
         let lastFooterClick = 0;
+
         const secretClickWindow = 2000;
 
         secretFooter.addEventListener('click', () => {
             const now = Date.now();
+
             if (now - lastFooterClick > secretClickWindow) {
                 footerClicks = 0;
             }
+
             lastFooterClick = now;
             footerClicks++;
 
             if (footerClicks >= 5) {
                 footerClicks = 0;
                 lastFooterClick = 0;
+
                 showFooterSecret();
             }
         });
@@ -1412,106 +1754,132 @@ secretBody.textContent = 'يمكن مش بعرف أعبّر دايمًا عن ق
             }
         });
 
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && secretModal.classList.contains('active')) {
-                secretModal.classList.remove('active');
+        // ------------------------------------------------
+        // NEW: I LOVE YOU Hash Modal (#❤️)
+        // ------------------------------------------------
+
+        const loveModal = document.getElementById('love-modal');
+        const loveClose = document.getElementById('love-close');
+
+        const loveSecretHash = "#❤️";
+        const oldSecretHash = "#romana";
+
+        const oldSecretCard = document.getElementById('secret-hash-card');
+
+        // إغلاق رسالة I LOVE YOU
+        loveClose.addEventListener('click', () => {
+            loveModal.classList.remove('active');
+        });
+
+        // إغلاق الرسالة عند الضغط خارج الصندوق
+        loveModal.addEventListener('click', (event) => {
+            if (event.target === loveModal) {
+                loveModal.classList.remove('active');
             }
         });
 
-        // === Secret Hash Message Logic (Multi-Hash System) ===
-        
-        // المتغيرات الخاصة بالرسائل السرية بالهاش
-        const oldSecretHash = "#romana";
-        const oldSecretCard = document.getElementById("secret-hash-card");
-        
-        const newSecretHash = "#❤️"; // الهاش الجديد كرمز تعبيري
-        const newSecretCard = document.getElementById("new-secret-card");
+        // ------------------------------------------------
+        // Multi Hash System
+        // ------------------------------------------------
 
-        // دالة التحقق من الهاش وإظهار الرسالة السرية المقابلة (أو إخفاؤها)
         function checkSecretHash() {
-            // الحصول على الهاش الحالي وفك ترميزه بصورة صحيحة (للتعامل مع الإيموجي والرموز)
-            // المتصفح يحول `#❤️` إلى `#%E2%9D%A4%EF%B8%8F` في الرابط
-            const currentRawHash = window.location.hash;
             let currentDecodedHash = "";
+
             try {
-                currentDecodedHash = decodeURIComponent(currentRawHash).toLowerCase();
+                currentDecodedHash =
+                    decodeURIComponent(window.location.hash).toLowerCase();
+
             } catch (e) {
-                // في حال وجود خطأ في الترميز، استخدم النص الخام
-                currentDecodedHash = currentRawHash.toLowerCase();
+                currentDecodedHash =
+                    window.location.hash.toLowerCase();
             }
 
-            // --- 1. التحقق من الهاش القديم (#romana) ---
+            // إخفاء الرسائل السابقة أولاً
+
+            if (oldSecretCard) {
+                oldSecretCard.classList.remove('show', 'flipped');
+            }
+
+            loveModal.classList.remove('active');
+
+            // الهاش القديم #romana
+
             if (currentDecodedHash === oldSecretHash) {
-                // إظهار الرسالة القديمة وتعبئتها
-                if (!oldSecretCard.classList.contains("show")) {
-                    showHashSecretOld(); // تعبئة المحتوى فقط عند الإظهار
-                }
-                
-                // إخفاء الرسالة الجديدة
-                if (newSecretCard) {
-                    newSecretCard.classList.remove("show");
-                    newSecretCard.classList.remove("flipped");
-                }
-            } 
-            // --- 2. التحقق من الهاش الجديد (#❤️) ---
-            // نقارن النص العربي/الإيموجي مباشرة بعد فك الترميز
-            else if (currentDecodedHash === newSecretHash) {
-                // إظهار الرسالة الجديدة
-                if (newSecretCard) {
-                    newSecretCard.classList.add("show");
-                    // تعبئة المحتوى هنا إذا لم يتم تعبئته مسبقًا في الـ HTML
-                    // (في هذا الكود، النص موجود مسبقًا في الـ HTML لتبسيط الأمر)
-                }
-                
-                // إخفاء الرسالة القديمة
-                if (oldSecretCard) {
-                    oldSecretCard.classList.remove("show");
-                    oldSecretCard.classList.remove("flipped");
-                }
+
+                showHashSecretOld();
+
             }
-            // --- 3. لا يوجد هاش أو هاش آخر ---
+
+            // الهاش الجديد #❤️
+
+            else if (currentDecodedHash === loveSecretHash) {
+
+                loveModal.classList.add('active');
+
+                playSuccessArpeggio();
+
+            }
+
+            // لا يوجد هاش مطابق
+
             else {
-                // إخفاء جميع الرسائل السرية
+
                 if (oldSecretCard) {
-                    oldSecretCard.classList.remove("show");
-                    oldSecretCard.classList.remove("flipped");
+                    oldSecretCard.classList.remove('show', 'flipped');
                 }
-                if (newSecretCard) {
-                    newSecretCard.classList.remove("show");
-                    newSecretCard.classList.remove("flipped");
-                }
+
+                loveModal.classList.remove('active');
+
             }
         }
 
-        // إضافة Event Listener للبطاقة القديمة (من الكود الأصلي)
+        // فتح البطاقة القديمة
+
         if (oldSecretCard) {
-            oldSecretCard.addEventListener("click", () => {
-                if (oldSecretCard.classList.contains("show")) {
-                    oldSecretCard.classList.toggle("flipped");
-                    // لا تتدخل في عداد الرسائل الأساسي
+            oldSecretCard.addEventListener('click', () => {
+                if (oldSecretCard.classList.contains('show')) {
+                    oldSecretCard.classList.toggle('flipped');
                 }
             });
         }
 
-        // إضافة Event Listener للبطاقة الجديدة (مستقلة وبدون تدخل في العداد)
-        if (newSecretCard) {
-            newSecretCard.addEventListener("click", () => {
-                if (newSecretCard.classList.contains("show")) {
-                    newSecretCard.classList.toggle("flipped");
-                    // لا تدخل في عداد flippedCount أو نظام فتح الظرف
-                }
-            });
-        }
+        // الاستماع لتغير الهاش
 
-        // استماع لتغير الهاش في الرابط، وتشغيل دالة التحقق عند التحميل
-        window.addEventListener("hashchange", checkSecretHash);
-        checkSecretHash(); // تحقق أولي عند فتح الصفحة
+        window.addEventListener('hashchange', checkSecretHash);
 
-        // إظهار عناصر الهيرو (تكملة الكود الأصلي)
+        // التحقق عند تحميل الصفحة
+
+        checkSecretHash();
+
+        // ------------------------------------------------
+        // Keyboard Controls
+        // ------------------------------------------------
+
+        document.addEventListener('keydown', (event) => {
+
+            if (event.key === 'Escape') {
+
+                closePasswordModal();
+
+                secretModal.classList.remove('active');
+
+                loveModal.classList.remove('active');
+
+                modal.classList.remove('active');
+
+            }
+
+        });
+
+        // --- Hero Animation ---
+
         setTimeout(() => {
-            document.querySelectorAll('.hero .fade-up').forEach(el => el.classList.add('visible'));
+            document.querySelectorAll('.hero .fade-up').forEach(el => {
+                el.classList.add('visible');
+            });
         }, 100);
 
     </script>
+
 </body>
 </html>
